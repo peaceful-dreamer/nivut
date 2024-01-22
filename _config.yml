@@ -1,0 +1,7 @@
+title: Your awesome title
+
+plugins:
+  - github-pages
+
+collections:
+  - points

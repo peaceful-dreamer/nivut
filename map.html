@@ -1,0 +1,55 @@
+<!-- https://api.govmap.gov.il/ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
+    <script src="https://www.govmap.gov.il/govmap/api/govmap.api.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            govmap.createMap('map',
+                {
+                    token: '5a4b8472-b95b-4687-8179-0ccb621c7990',
+                    showXY: true,
+                    identifyOnClick: true,
+                    isEmbeddedToggle: false,
+                    background: "9",
+                    center: { x: 241548.504230318, y: 732933.839911725 },
+                    level: 2,
+                    layersMode: 4,
+                    zoomButtons: false
+                });
+
+            var radius = 30
+            var data = {
+                circleGeometries: [
+                    { x: 241548.504, y: 732933.839, radius: radius },
+                ],
+                names: ['p1'],
+                geometryType: govmap.geometryType.CIRCLE,
+                defaultSymbol:
+                {
+                    outlineColor: [0, 0, 255, 1],
+                    outlineWidth: 1,
+                    fillColor: [0, 255, 0, 0.5]
+                },
+                symbols: [],
+                data: {
+                    // tooltips: ['tooltip1'],
+                    // headers: ['header1'],
+                    // bubbles: [''],
+                    // bubbleUrl: 'http://www.porterdavis.com.au/~/media/homes/astor%20grange/lot%20123%20liverpool%20street%20upc/upper-point-cook---astor-grange-54---0741_long-island-facade.jpg?as=1&h=649&la=en&w=1400&crop=1'
+                }
+            };
+            govmap.displayGeometries(data).then(function (response) {
+                console.log(response.data);
+            });
+        });
+    </script>
+</head>
+
+<body style="margin: 0;">
+    <div id="map"></div>
+</body>
+
+</html>
