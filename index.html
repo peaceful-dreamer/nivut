@@ -1,10 +1,15 @@
+---
+---
+
 <!-- https://api.govmap.gov.il/ -->
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
+    <title>מפת ניווט</title>
     <script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
     <script src="https://www.govmap.gov.il/govmap/api/govmap.api.js"></script>
+ 
     <script type="text/javascript">
         $(document).ready(function () {
             govmap.createMap('map',
@@ -14,36 +19,48 @@
                     identifyOnClick: true,
                     isEmbeddedToggle: false,
                     background: "9",
+                    // center of all locations on map: 242170.46,733064.04
                     center: { x: 241548.504230318, y: 732933.839911725 },
-                    level: 2,
+                    level: 4,
                     layersMode: 4,
                     zoomButtons: false
                 });
 
-            var radius = 30
+            var radius = 6
+            var fillOpacity = 1
+
             var data = {
                 circleGeometries: [
-                    { x: 241548.504, y: 732933.839, radius: radius },
+                    {% for point in site.data.points %}
+                        { x: {{ point.x }}, y: {{ point.y }}, radius: radius },
+                    {% endfor %}
                 ],
-                names: ['p1'],
+            names: ['p1'],
                 geometryType: govmap.geometryType.CIRCLE,
-                defaultSymbol:
-                {
-                    outlineColor: [0, 0, 255, 1],
-                    outlineWidth: 1,
-                    fillColor: [0, 255, 0, 0.5]
-                },
-                symbols: [],
+            defaultSymbol:
+            {
+                outlineColor: [0, 0, 255, 1],
+                outlineWidth: 1,
+                fillColor: [0, 255, 0, 0.5]  
+            },
+            symbols: 
+            [
+                
+            ],
                 data: {
-                    // tooltips: ['tooltip1'],
-                    // headers: ['header1'],
-                    // bubbles: [''],
-                    // bubbleUrl: 'http://www.porterdavis.com.au/~/media/homes/astor%20grange/lot%20123%20liverpool%20street%20upc/upper-point-cook---astor-grange-54---0741_long-island-facade.jpg?as=1&h=649&la=en&w=1400&crop=1'
-                }
-            };
-            govmap.displayGeometries(data).then(function (response) {
-                console.log(response.data);
-            });
+                tooltips: [
+                    {% for point in site.data.points %}
+                        "קבוצה {{point.group}}, מזהה נקודה {{point.id}}",
+                                    {% endfor %}
+                ],
+                // headers: ['header1'],
+                // bubbles: [''],
+                // bubbleUrl: 'http://www.porterdavis.com.au/~/media/homes/astor%20grange/lot%20123%20liverpool%20street%20upc/upper-point-cook---astor-grange-54---0741_long-island-facade.jpg?as=1&h=649&la=en&w=1400&crop=1'
+            }
+        };
+        govmap.displayGeometries(data).then(function (response) {
+            console.log(response.data);
+        });
         });
     </script>
 </head>

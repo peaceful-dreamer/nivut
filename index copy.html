@@ -1,0 +1,60 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
+    <script src="https://www.govmap.gov.il/govmap/api/govmap.api.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            govmap.createMap('map',
+                {
+                    token: '5a4b8472-b95b-4687-8179-0ccb621c7990',
+                    layers: ["GASSTATIONS", "PARCEL_HOKS", "KSHTANN_ASSETS", "bus_stops", "PARCEL_ALL"],
+                    showXY: true,
+                    identifyOnClick: true,
+                    isEmbeddedToggle: false,
+                    background: 3,
+                    layersMode: 1,
+                    zoomButtons: false
+                });
+        });
+        function showExample() {
+            //Create data object
+            var data = {
+                wkts: ['POINT(196062.48 621458.39)', 'POINT(200000.48 600000.39)', 'POINT(25000.48 650000.39)'],
+                names: ['p1', 'p2', 'p3'],
+                geometryType: govmap.geometryType.POINT,
+                defaultSymbol:
+                {
+                    url: 'http://www.creatingonline.com/webmaster/free_bullets/greenbullet1.gif',
+                    width: 100,
+                    height: 100
+                },
+                symbols: [
+                    { url: 'https://pngimg.com/uploads/dot/dot_PNG40.png', width: 200, height: 200 },
+                    { fillColor: [255, 0, 0, 1], outlineColor: [0, 0, 255, 1], width: 2, height: 2 },
+                    { fillColor: [255, 0, 0, 1], outlineColor: [0, 0, 255, 1], width: 5, height: 5 },
+                    // { url: 'http://www.creatingonline.com/webmaster/free_bullets/greenbullet1.gif', width: 15, height: 15 }
+                ],
+                clearExisting: true,
+                data: {
+                    tooltips: ['ynet כלכלה', 'ynet חדשות', 'ynet תרבות'],
+                    headers: ['כלכלה', 'חדשות', 'תרבות'],
+                    bubbles: ['L-6,00.html',
+                        'L-2,00.html',
+                        'L-538,00.html'],
+                    bubbleUrl: 'https://www.ynet.co.il/home/0,7340,'
+                }
+            };
+            govmap.displayGeometries(data).then(function (response) {
+                console.log(response.data);
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <div id="map" style="width:600px;height:600px"></div>
+    <button onClick="showExample()">Show Example</button>
+</body>
+
+</html>

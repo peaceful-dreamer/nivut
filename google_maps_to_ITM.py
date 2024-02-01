@@ -27,7 +27,7 @@ def google_maps_to_lat_lon(url):
 lines = []
 fieldnames = None
 
-with open('points.csv', newline='') as csvfile:
+with open('_collections/points.csv', newline='') as csvfile:
     pointsreader = csv.DictReader(csvfile)
     fieldnames = pointsreader.fieldnames
     for row in pointsreader:
@@ -35,11 +35,10 @@ with open('points.csv', newline='') as csvfile:
         x, y = lat_lon_to_israel_transverse_mercator(lat, lon)
         row.update({"lat": lat, "lon": lon, "x": x, "y": y})
         lines.append(row)
-print(fieldnames)
+        
 fieldnames.extend(["lat", "lon", "x", "y"])
-print(fieldnames)
 
-with open('points_new.csv', 'w', newline='') as csvfile:
+with open('_collections/points.csv', 'w', newline='') as csvfile:
     pointswriter = csv.DictWriter(csvfile, fieldnames=fieldnames)
     pointswriter.writeheader()
     pointswriter.writerows(lines)
